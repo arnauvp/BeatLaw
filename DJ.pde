@@ -6,7 +6,7 @@ class DJ extends Thread {
 
   // All sound lengths will be a multiple
   // of this one 
-  long BASE_SOUND_LEN = 16;//ms
+  long BASE_SOUND_LEN = 20;//ms
   float MI = 58.27;
   float SIb = 73.42;
   float FA = 77.78;
@@ -70,6 +70,12 @@ class DJ extends Thread {
     ShotSound shot = new ShotSound(out);
     shot.startSound();
     sounds.add(shot);
+  }
+  
+  void playDodge() {
+    DodgeSound dodge = new DodgeSound(out);
+    dodge.startSound();
+    sounds.add(dodge);
   }
 
   void playMetroKick() {

@@ -95,6 +95,7 @@ class Cowboy {
 
   void dodge(long timestamp) {
    println(name + " dodges! " + dodgeCount + " " + timestamp);
+   theDJ.playDodge();
    dodges[dodgeCount] = new Dodge(timestamp);
    dodgeCount++;
   }

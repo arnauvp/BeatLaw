@@ -1,10 +1,14 @@
-
 /* Graphic variables - time independent*/
 int CANVAS_WIDTH = 800;
 int CANVAS_HEIGHT = 600;
 int SKETCH_FRAMERATE = 60;
 int BEAT_HEIGHT = 20;
+int FRAME_STROKE_WIDTH = 20;
+int FRAME_YPOS_START = CANVAS_HEIGHT/5;
+int FRAME_HEIGHT = CANVAS_WIDTH/2;
 color bgColor = color(41, 49, 189);
+color frameColor = color(190, 96, 255);
+
 
 /* Graphic variables - time dependent*/
 float xPos;
@@ -50,7 +54,7 @@ void setup () {
   p1 = new Cowboy("Billy", p1ImgPaths, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   p2 = new Cowboy("Diablo", p2ImgPaths, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   theCactus = new Cactus("Kak-Tuz", cactusImgPaths, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
-  theDJ = new DJ(this);
+
 }
 
 void initVariables() {
@@ -65,6 +69,7 @@ void resetNewLineVariables() {
 }
 
 void startSketch() {
+  theDJ = new DJ(this);
   theDJ.initSoundSystem();
   metro = new Metronome(theDJ.getAudioOutput());
   initVariables();
@@ -104,6 +109,7 @@ void draw() {
   if (!started)
     return;
   background(bgColor);
+  drawFrame();
   getUpdatedElapsedTime();
   metro.render();
   theCactus.render(lastBeatNum);
@@ -111,6 +117,14 @@ void draw() {
   otherPlayer.render(false, false);
   fill(255);
   rect(elapsed*CANVAS_WIDTH/metro.timeLength, yPos, metro.beatWidth/2, BEAT_HEIGHT);
+}
+
+void drawFrame() {
+  stroke(frameColor);
+  strokeWeight(FRAME_STROKE_WIDTH);
+  fill(0,0,0,0);
+  rect(FRAME_STROKE_WIDTH/2, FRAME_YPOS_START, CANVAS_WIDTH-FRAME_STROKE_WIDTH, FRAME_HEIGHT-FRAME_STROKE_WIDTH/2);
+  noStroke();
 }
 
 void newLine() {
