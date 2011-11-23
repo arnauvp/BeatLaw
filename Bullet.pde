@@ -5,10 +5,9 @@ class Bullet {
     this.originT = originT;
   }
 
-  void render() {
-    fill(255,0,0);
+  void render(color c) {
+    fill(c);
     rect(originT*CANVAS_WIDTH/metro.timeLength, 5 + BEAT_HEIGHT, 25, BEAT_HEIGHT);
-    //rect(originT, 5+BEAT_HEIGHT, timelineTickWidth, BEAT_HEIGHT);
   }
 }
 

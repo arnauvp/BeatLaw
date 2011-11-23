@@ -33,6 +33,8 @@ String[] cactusImgPaths = new String[] {
 };
 String p1ImgPath = "sprites/1up";
 String p2ImgPath = "sprites/2up";
+color p1Color = color(255, 129, 31);
+color p2Color = color(234, 81, 235);
 
 boolean justShot = false;
 boolean currentPlayerShooting = true; 
@@ -51,8 +53,8 @@ void setup () {
   //background(bgColor);
   stroke(255);
   //text(startupText, 20, 20, 250, 100);
-  p1 = new Cowboy("Billy", p1ImgPath, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
-  p2 = new Cowboy("Diablo", p2ImgPath, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
+  p1 = new Cowboy("Billy", p1Color, p1ImgPath, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
+  p2 = new Cowboy("Diablo", p2Color, p2ImgPath, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   theCactus = new Cactus("Kak-Tuz", cactusImgPaths, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
 }
 
@@ -219,7 +221,14 @@ void keyPressed() {
 }
 
 boolean handleSpecialKey() {
-  if (key == 's') {
+  if (!started) {
+    if (key >= 'A' && key <= 'z') {
+      // start with any key
+      dismissOpeningScreen();
+      startSketch();
+    }
+    return true;
+  } else if (key == 's') {
     if (started) {
       stopSketch();
       showOpeningScreen();
@@ -229,11 +238,7 @@ boolean handleSpecialKey() {
       startSketch();
     }
     return true;
-  } 
-  else if (!started) {
-    return true; // Absorb key events when not started
-  }
-  else if ( key == 'm' ) {
+  } else if ( key == 'm' ) {
     theDJ.toggleSound();
     return true;
   } 

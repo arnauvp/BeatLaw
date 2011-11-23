@@ -24,14 +24,16 @@ class Cowboy {
   Dodge[] dodges;
 
   String name;
+  color c;
   int shotsLeft;
   int posX, posY;
   PImage[] imgs;
   int stance;
 
-  public Cowboy(String name, String imgPath, int posX, int posY) {
+  public Cowboy(String name, color c, String imgPath, int posX, int posY) {
     lives = INITIAL_LIVES;
     this.name = name;
+    this.c = c;
     this.posX = posX;
     this.posY = posY;
     if (posX < CANVAS_WIDTH/2)
@@ -56,10 +58,10 @@ class Cowboy {
     image(imgs[stance], 0, 0);
     popMatrix();
     for (int j=0; j<(MAX_SHOTS-shotsLeft); j++) {
-      bullets[j].render();
+      bullets[j].render(c);
     }
     for (int j=0; j<dodgeCount; j++) {
-      dodges[j].render();
+      dodges[j].render(c);
     }
     if (alignLeft) {
       for (int j=0; j <lives; j++) {

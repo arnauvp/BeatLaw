@@ -77,6 +77,7 @@ class Metronome extends Thread {
   }
 
   void drawMarks() {
+    /*
     // Reset the metronome in case the time length changed
     fill(bgColor);
     rect(0, 0, CANVAS_WIDTH, BEAT_HEIGHT);
@@ -84,7 +85,7 @@ class Metronome extends Thread {
     fill(0, 255, 0);
     for (int j=0; j<4; j++) {
       rect(j*CANVAS_WIDTH/4 + metroOffset - beatWidth/2, 0, beatWidth, BEAT_HEIGHT);
-    }
+    }*/
   }
 
   void render() {
