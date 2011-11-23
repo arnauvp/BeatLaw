@@ -65,11 +65,11 @@ class Cowboy {
     }
     if (alignLeft) {
       for (int j=0; j <lives; j++) {
-         image(lifeImg, j*lifeImg.width, CANVAS_HEIGHT-lifeImg.height);
+         image(lifeImg, j*(lifeImg.width+5), CANVAS_HEIGHT-lifeImg.height);
       }
     } else {
       for (int j=0; j <lives; j++) {
-         image(lifeImg, CANVAS_WIDTH-(j+1)*lifeImg.width, CANVAS_HEIGHT-lifeImg.height);
+         image(lifeImg, CANVAS_WIDTH-(j+1)*(lifeImg.width + 5), CANVAS_HEIGHT-lifeImg.height);
       }
     }
   }

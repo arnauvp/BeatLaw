@@ -125,14 +125,14 @@ void draw() {
 void drawFrame() {
   stroke(frameColor);
   strokeWeight(FRAME_STROKE_WIDTH);
-  fill(0,0,0,0);
+  fill(0, 0, 0, 0);
   rect(FRAME_STROKE_WIDTH/2, FRAME_YPOS_START, CANVAS_WIDTH-FRAME_STROKE_WIDTH, FRAME_HEIGHT-FRAME_STROKE_WIDTH/2);
   noStroke();
 }
 
 void showOpeningScreen() {
   /*openingScreen = new Gif(this, OPENING_SCREEN_PATH);
-  openingScreen.loop();*/
+   openingScreen.loop();*/
   openingScreen = loadImage(OPENING_SCREEN_PATH);
   image(openingScreen, 0, 0);
 }
@@ -143,7 +143,6 @@ void dismissOpeningScreen() {
 }
 
 void showClosingScreen() {
-
 }
 
 
@@ -153,7 +152,8 @@ void newLine() {
   // timeLength = newTimeLength;
   if (currentPlayerShooting) {
     initVariables();
-  } else {
+  } 
+  else {
     yPos = 5 + 2*BEAT_HEIGHT;
     /*    long[] shotsTime = otherPlayer.getShots();
      for (int j=0; j<shotsTime.length; j++) {
@@ -168,8 +168,8 @@ void newLine() {
 
 /* Game control methods */
 Cowboy switchTurn() {
-   p1.newTurn();
-   p2.newTurn();
+  p1.newTurn();
+  p2.newTurn();
   if (currentPlayerShooting) {
     if (currentPlayer == p1) {
       currentPlayer = p2;
@@ -212,11 +212,16 @@ void keyPressed() {
   if (handleSpecialKey())
     return;
   getUpdatedElapsedTime();
-  if (currentPlayerShooting) {
-    justShot = currentPlayer.shoot(elapsed);
-  } else {
-    currentPlayer.dodge(elapsed);
-    bThread.dodgeAttempt(elapsed);
+  // Only shoot/dodge with A/L for P1/P2
+  if (((key == 'a' || key == 'A') && (p1 == currentPlayer)) ||
+    ((key == 'l' || key == 'L') && (p2 == currentPlayer))) {
+    if (currentPlayerShooting) {
+      justShot = currentPlayer.shoot(elapsed);
+    } 
+    else {
+      currentPlayer.dodge(elapsed);
+      bThread.dodgeAttempt(elapsed);
+    }
   }
 }
 
@@ -228,7 +233,8 @@ boolean handleSpecialKey() {
       startSketch();
     }
     return true;
-  } else if (key == 's') {
+  } 
+  else if (key == 's') {
     if (started) {
       stopSketch();
       showOpeningScreen();
@@ -238,7 +244,8 @@ boolean handleSpecialKey() {
       startSketch();
     }
     return true;
-  } else if ( key == 'm' ) {
+  } 
+  else if ( key == 'm' ) {
     theDJ.toggleSound();
     return true;
   } 
