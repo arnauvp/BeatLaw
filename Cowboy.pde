@@ -1,9 +1,10 @@
 class Cowboy {
 
   int STAND_STILL = 0;
-  int SHOOT_STRAIGHT = 1;
-  int DODGE_LEFT = 2;
-  int DODGE_RIGHT = 3;
+  int MIN_SHOOT_POS = 1;
+  int MAX_SHOOT_POS = 6;
+  int MIN_DODGE_POS = 7;
+  int MAX_DODGE_POS = 12;
 
   int SHOT_RECOVERY_TIME = 200;
   int MAX_SHOTS = 6; //Those of a revolver
@@ -22,13 +23,13 @@ class Cowboy {
   PImage[] imgs;
   int stance;
 
-  public Cowboy(String name, String[] imgPaths, int posX, int posY) {
+  public Cowboy(String name, String imgPath, int posX, int posY) {
     this.name = name;
     this.posX = posX;
     this.posY = posY;
-    imgs = new PImage[imgPaths.length];
-    for (int j=0; j<imgPaths.length; j++) {
-      this.imgs[j] = loadImage(imgPaths[j]);
+    imgs = new PImage[MAX_DODGE_POS];
+    for (int j=0; j<MAX_DODGE_POS; j++) {
+      this.imgs[j] = loadImage(imgPath + "/" + j + ".png");
     }
     reload();
   }
@@ -55,17 +56,33 @@ class Cowboy {
     if (shooting) {    
       if (shotsLeft == MAX_SHOTS)
         return STAND_STILL;
-      else if ((elapsed-shotsTime[MAX_SHOTS-shotsLeft-1]) < SHOT_RECOVERY_TIME)
-        return SHOOT_STRAIGHT;
+      else if ((elapsed-shotsTime[MAX_SHOTS-shotsLeft-1]) < SHOT_RECOVERY_TIME) {
+        if (stance != STAND_STILL)
+          return stance;
+        else
+          return randomShootingStance();
+      }
     } 
     else { // dodging
       if (dodgeCount == 0)
         return STAND_STILL;
-      else if ((elapsed-dodges[dodgeCount-1].tstamp) < DODGE_RECOVERY_TIME)
-        return DODGE_LEFT;
+      else if ((elapsed-dodges[dodgeCount-1].tstamp) < DODGE_RECOVERY_TIME) {
+        if (stance != STAND_STILL)
+          return stance;
+        else
+          return randomDodgingStance();
+      }
     }
 
     return STAND_STILL;
+  }
+  
+  int randomShootingStance() {
+     return (int) random(MIN_SHOOT_POS, MAX_SHOOT_POS);    
+  }
+  
+  int randomDodgingStance() {
+     return (int) random(MIN_DODGE_POS, MAX_DODGE_POS);    
   }
 
   boolean shoot(long timestamp) {

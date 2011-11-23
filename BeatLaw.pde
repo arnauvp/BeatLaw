@@ -28,12 +28,8 @@ DJ theDJ;
 String[] cactusImgPaths = new String[] {
   "sprites/cactus.png", "sprites/cactus-2.png"
 };
-String[] p1ImgPaths = new String[] {
-  "sprites/c1-0.png", "sprites/c1-1.png", "sprites/c1-2.png"
-};
-String[] p2ImgPaths = new String[] {
-  "sprites/c2-0.png", "sprites/c2-1.png", "sprites/c2-2.png"
-};
+String p1ImgPath = "sprites/1up";
+String p2ImgPath = "sprites/2up";
 
 boolean justShot = false;
 boolean currentPlayerShooting = true; 
@@ -51,8 +47,8 @@ void setup () {
   background(bgColor);
   stroke(255);
   text(startupText, 20, 20, 250, 100);
-  p1 = new Cowboy("Billy", p1ImgPaths, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
-  p2 = new Cowboy("Diablo", p2ImgPaths, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
+  p1 = new Cowboy("Billy", p1ImgPath, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
+  p2 = new Cowboy("Diablo", p2ImgPath, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   theCactus = new Cactus("Kak-Tuz", cactusImgPaths, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
 
 }
