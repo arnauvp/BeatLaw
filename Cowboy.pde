@@ -14,7 +14,7 @@ class Cowboy {
   String LIFE_ICON_PATH = "sprites/cor.png";
   PImage lifeImg;
   boolean alignLeft;
-  int INITIAL_LIVES = 5;
+  int INITIAL_LIVES = 3;
   int lives;
 
   long[] shotsTime;
@@ -134,10 +134,14 @@ class Cowboy {
   }
 
   void dodge(long timestamp) {
+    if (dodgeCount == MAX_DODGES) {
+      println("Too tired to dance, bro!");
+      return;
+    }
    //println(name + " dodges! " + dodgeCount + " " + timestamp);
    theDJ.playDodge();
-   dodges[dodgeCount] = new Dodge(timestamp);
    dodgeCount++;
+   dodges[dodgeCount-1] = new Dodge(timestamp);
   }
 
   void restartDuel() {
