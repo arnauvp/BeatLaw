@@ -73,6 +73,7 @@ class Cowboy {
       println(name + ": Geez, I have no bullets left!");
       return false;
     }
+    theDJ.playShot();
     shotsTime[MAX_SHOTS-shotsLeft] = timestamp;
     bullets[MAX_SHOTS-shotsLeft] = new Bullet(timestamp);
     shotsLeft--;

@@ -1,12 +1,3 @@
-/* Sound lib stuff */
-import ddf.minim.*;
-import ddf.minim.signals.*;
-import ddf.minim.effects.*;
-
-Minim minim; //minor change
-AudioOutput out;
-SquareWave shotSound;
-/* End of sound lib stuff */
 
 /* Graphic variables - time independent*/
 int CANVAS_WIDTH = 800;
@@ -28,6 +19,7 @@ Cowboy p1, p2;
 Cowboy currentPlayer, otherPlayer;
 Cactus theCactus;
 BulletThread bThread;
+DJ theDJ;
 
 String[] cactusImgPaths = new String[] {
   "sprites/cactus.png", "sprites/cactus-2.png"
@@ -58,6 +50,7 @@ void setup () {
   p1 = new Cowboy("Billy", p1ImgPaths, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   p2 = new Cowboy("Diablo", p2ImgPaths, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   theCactus = new Cactus("Kak-Tuz", cactusImgPaths, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+  theDJ = new DJ(this);
 }
 
 void initVariables() {
@@ -72,13 +65,8 @@ void resetNewLineVariables() {
 }
 
 void startSketch() {
-  minim = new Minim(this);
-  out = minim.getLineOut(Minim.STEREO, 256);
-  metro = new Metronome(out);
-  shotSound = new SquareWave(220, 2, 256);
-  out.mute();
-  out.addSignal(shotSound);
-  out.disableSignal(shotSound);
+  theDJ.initSoundSystem();
+  metro = new Metronome(theDJ.getAudioOutput());
   initVariables();
 
   p1.restartDuel();
@@ -86,7 +74,6 @@ void startSketch() {
 
   currentPlayer = p1;
   otherPlayer = p2;
-  out.unmute();
   beatStart = millis();
   metro.start();
   started = true;
@@ -97,10 +84,7 @@ void stopSketch() {
   if (!started)
     return;
   metro.quit();
-  out.mute();
-  out.close();
-  minim.stop();
-  minim = null;
+  theDJ.stopSoundSystem();
   started = false;
 }
 
@@ -125,12 +109,6 @@ void draw() {
   theCactus.render(lastBeatNum);
   currentPlayer.render(true, currentPlayerShooting);
   otherPlayer.render(false, false);
-  if (justShot) {
-    out.enableSignal(shotSound);
-  } 
-  else {
-    out.disableSignal(shotSound);
-  }
   fill(255);
   rect(elapsed*CANVAS_WIDTH/metro.timeLength, yPos, metro.beatWidth/2, BEAT_HEIGHT);
 }
@@ -196,9 +174,9 @@ void keyPressed() {
   if (handleSpecialKey())
     return;
   getUpdatedElapsedTime();
-  if (currentPlayerShooting)
+  if (currentPlayerShooting) {
     justShot = currentPlayer.shoot(elapsed);
-  else {
+  } else {
     currentPlayer.dodge(elapsed);
     bThread.dodgeAttempt(elapsed);
   }
@@ -218,12 +196,7 @@ boolean handleSpecialKey() {
     return true; // Absorb key events when not started
   }
   else if ( key == 'm' ) {
-    if ( out.isMuted() ) {
-      out.unmute();
-    } 
-    else {
-      out.mute();
-    }
+    theDJ.toggleSound();
     return true;
   } 
   else if (key == 't') {

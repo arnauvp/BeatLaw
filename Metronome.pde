@@ -103,7 +103,7 @@ class Metronome extends Thread {
   }
 
   void playSound() {
-    out.enableSignal(ticSound);
+    //out.enableSignal(ticSound);
   }
 
   void stopSound() {
