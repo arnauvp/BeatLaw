@@ -17,7 +17,8 @@ int yPos;
 float lastBeatNum;
 long beatStart; // beginning of line
 long elapsed;
-String OPENING_SCREEN_PATH = "screens/open.gif";
+String OPENING_SCREEN_PATH = "screens/open_static.png";
+String CLOSING_SCREEN_PATH = "screens/gameover.png";
 PImage openingScreen;
 
 /* Game control variables */
@@ -39,6 +40,7 @@ color p2Color = color(234, 81, 235);
 boolean justShot = false;
 boolean currentPlayerShooting = true; 
 boolean started = false;
+boolean gameOver = false;
 
 String startupText= "Click on this box.\nPress 's' to start, 'r' to reset, 'm' to mute";
 
@@ -83,6 +85,7 @@ void startSketch() {
   beatStart = millis();
   metro.start();
   started = true;
+  gameOver = false; 
   //loop();
 }
 
@@ -107,7 +110,10 @@ void reset() {
 
 /* Main graphic methods */
 void draw() {
-  if (!started) {
+  if (gameOver) {
+      showClosingScreen();
+      return;
+  } else if (!started) {
     //image(openingScreen, 0, 0);
     return;
   }
@@ -143,8 +149,10 @@ void dismissOpeningScreen() {
 }
 
 void showClosingScreen() {
+  PImage closingScreen = loadImage(CLOSING_SCREEN_PATH);
+  background(bgColor);
+  image(closingScreen, CANVAS_WIDTH/2 - closingScreen.width/2, CANVAS_HEIGHT/2 - closingScreen.height/2);
 }
-
 
 void newLine() {
   beatStart = millis();
@@ -155,11 +163,6 @@ void newLine() {
   } 
   else {
     yPos = 5 + 2*BEAT_HEIGHT;
-    /*    long[] shotsTime = otherPlayer.getShots();
-     for (int j=0; j<shotsTime.length; j++) {
-     println("Shot " + j + " time " + shotsTime[j]);    
-     }
-     println("-------");*/
     resetNewLineVariables();
     bThread = new BulletThread(otherPlayer.getShots());    
     bThread.start();
@@ -202,6 +205,7 @@ void shotMissed() {
   //println("SHOT MISSED! " + currentPlayer.getName() + " loses!");
   if (currentPlayer.lifeDown() == 0) {
     stopSketch();
+    gameOver = true;
     println(">>>> Game over! " + otherPlayer.getName() + " wins! <<<<");
   }
 }

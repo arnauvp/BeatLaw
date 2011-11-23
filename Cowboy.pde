@@ -8,7 +8,7 @@ class Cowboy {
 
   int SHOT_RECOVERY_TIME = 200;
   int MAX_SHOTS = 6; //Those of a revolver
-  int MAX_DODGES = 2*MAX_SHOTS;
+  int MAX_DODGES = MAX_SHOTS;
   int DODGE_RECOVERY_TIME = 200;
 
   String LIFE_ICON_PATH = "sprites/cor.png";
