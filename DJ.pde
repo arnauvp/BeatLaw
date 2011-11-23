@@ -6,7 +6,12 @@ class DJ extends Thread {
 
   // All sound lengths will be a multiple
   // of this one 
-  long BASE_SOUND_LEN = 15;//ms
+  long BASE_SOUND_LEN = 16;//ms
+  float MI = 58.27;
+  float SIb = 73.42;
+  float FA = 77.78;
+  int HITHAT_TYPE_HARD = 0;
+  int HITHAT_TYPE_SOFT = 1;
 
   PApplet app;
   Minim minim;
@@ -67,7 +72,28 @@ class DJ extends Thread {
     sounds.add(shot);
   }
 
-  void playMetroTick() {
+  void playMetroKick() {
+    MetronomeKickSound kick = new MetronomeKickSound(out);
+    kick.startSound();
+    sounds.add(kick);
+  }
+  
+  void playMetroHitHatHard() {
+    MetronomeHitHatSound hitHat = new MetronomeHitHatSound(out, HITHAT_TYPE_HARD);
+    hitHat.startSound();
+    sounds.add(hitHat);
+  }
+  
+  void playMetroHitHatSoft() {
+    MetronomeHitHatSound hitHat = new MetronomeHitHatSound(out, HITHAT_TYPE_SOFT);
+    hitHat.startSound();
+    sounds.add(hitHat);
+  }
+  
+  void playMetroBass(float note) {
+    MetronomeBassSound bass = new MetronomeBassSound(out, note);
+    bass.startSound();
+    sounds.add(bass);
   }
 
   void toggleSound() {

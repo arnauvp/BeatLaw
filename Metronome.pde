@@ -28,7 +28,6 @@ class Metronome extends Thread {
   SquareWave ticSound;
   long ticSoundLen;
 
-
   public Metronome(AudioOutput out) {
     beats = 0;
     timeElapsed = 0;
@@ -55,12 +54,7 @@ class Metronome extends Thread {
       timeElapsed = currTime - prevBeatTime;
       prevBeatTime = currTime;
       //println("metronome: TIC " + beats + " " + timeElapsed);
-      if ((beats % (BEATS_PER_TIME/4)) == 0) {
-        playSound();
-      } 
-      else {
-        stopSound();
-      }
+      playSound();
       newBeat(getTicNum());
       try {
         sleep(beatDelay);
@@ -103,11 +97,24 @@ class Metronome extends Thread {
   }
 
   void playSound() {
-    //out.enableSignal(ticSound);
+    float soundType = (beats % (BEATS_PER_TIME/4));
+    if (soundType == 0)
+      theDJ.playMetroKick();
+    if (soundType == 2)
+      theDJ.playMetroHitHatHard();
+    if (soundType == 3)
+      theDJ.playMetroHitHatHard();
+    
+    if (beats == 0 || beats == 8 || beats == 11)
+      theDJ.playMetroBass(theDJ.FA);
+    else if (beats == 4 || beats == 12)
+      theDJ.playMetroBass(theDJ.MI);
+    else if (beats == 14)
+      theDJ.playMetroBass(theDJ.SIb); 
   }
 
   void stopSound() {
-    out.disableSignal(ticSound);
+   // out.disableSignal(ticSound);
   }
 
   int getBeatWidth() {
