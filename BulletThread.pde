@@ -1,6 +1,7 @@
 class BulletThread extends Thread {
 
-  long DODGE_TOLERANCE = 200;
+  // absolute difference between the shot and the dodge
+  long DODGE_TOLERANCE = 50;
   
   long shotTimestamps[];
   long dodgeTimestamps[];
@@ -15,7 +16,7 @@ class BulletThread extends Thread {
 
   void start() {
     running = true;
-    println("BT starting ");
+    //println("BT starting ");
     super.start();
   }
 
@@ -24,7 +25,7 @@ class BulletThread extends Thread {
     while (running && nextShot<shotTimestamps.length && shotTimestamps[nextShot] >= 0) {
       //println("next shot to wake up for " + shotTimestamps[nextShot] + " and now is " + getUpdatedElapsedTime());
       try {
-        sleep(shotTimestamps[nextShot]-getUpdatedElapsedTime());
+        sleep(shotTimestamps[nextShot]-getUpdatedElapsedTime() + DODGE_TOLERANCE);
       } 
       catch (Exception e) {
         e.printStackTrace();
@@ -40,7 +41,7 @@ class BulletThread extends Thread {
       }
       nextShot++;
     }
-    println("BT finishing");
+    //println("BT finishing");
   }
 
   void quit() {
@@ -53,7 +54,7 @@ class BulletThread extends Thread {
   }
 
   boolean isShotDodged(long shotTime, long dodgeTime) {
-    return abs(shotTime-dodgeTime) <= DODGE_TOLERANCE;
+    return abs(shotTime-dodgeTime) <= 2*DODGE_TOLERANCE;
   }
 }
 

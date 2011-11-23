@@ -3,7 +3,7 @@ import ddf.minim.*;
 import ddf.minim.signals.*;
 import ddf.minim.effects.*;
 
-Minim minim;
+Minim minim; //minor change
 AudioOutput out;
 SquareWave shotSound;
 /* End of sound lib stuff */
