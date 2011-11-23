@@ -139,6 +139,9 @@ class Cowboy {
   }
 
   void restartDuel() {
+     lives = INITIAL_LIVES;
+     dodgeCount = 0;
+     reload();
   }
   
   void newTurn() {

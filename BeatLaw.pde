@@ -1,3 +1,4 @@
+
 /* Graphic variables - time independent*/
 int CANVAS_WIDTH = 800;
 int CANVAS_HEIGHT = 600;
@@ -16,6 +17,8 @@ int yPos;
 float lastBeatNum;
 long beatStart; // beginning of line
 long elapsed;
+String OPENING_SCREEN_PATH = "screens/open.gif";
+PImage openingScreen;
 
 /* Game control variables */
 Metronome metro;
@@ -44,13 +47,13 @@ void setup () {
   frameRate(SKETCH_FRAMERATE);
   noStroke();
   smooth();
-  background(bgColor);
+  showOpeningScreen();
+  //background(bgColor);
   stroke(255);
-  text(startupText, 20, 20, 250, 100);
+  //text(startupText, 20, 20, 250, 100);
   p1 = new Cowboy("Billy", p1ImgPath, CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   p2 = new Cowboy("Diablo", p2ImgPath, 3*CANVAS_WIDTH/4, CANVAS_HEIGHT/2);
   theCactus = new Cactus("Kak-Tuz", cactusImgPaths, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
-
 }
 
 void initVariables() {
@@ -102,8 +105,10 @@ void reset() {
 
 /* Main graphic methods */
 void draw() {
-  if (!started)
+  if (!started) {
+    //image(openingScreen, 0, 0);
     return;
+  }
   background(bgColor);
   drawFrame();
   getUpdatedElapsedTime();
@@ -122,6 +127,23 @@ void drawFrame() {
   rect(FRAME_STROKE_WIDTH/2, FRAME_YPOS_START, CANVAS_WIDTH-FRAME_STROKE_WIDTH, FRAME_HEIGHT-FRAME_STROKE_WIDTH/2);
   noStroke();
 }
+
+void showOpeningScreen() {
+  /*openingScreen = new Gif(this, OPENING_SCREEN_PATH);
+  openingScreen.loop();*/
+  openingScreen = loadImage(OPENING_SCREEN_PATH);
+  image(openingScreen, 0, 0);
+}
+
+void dismissOpeningScreen() {
+  //openingScreen.stop();
+  openingScreen = null;
+}
+
+void showClosingScreen() {
+
+}
+
 
 void newLine() {
   beatStart = millis();
@@ -200,8 +222,10 @@ boolean handleSpecialKey() {
   if (key == 's') {
     if (started) {
       stopSketch();
+      showOpeningScreen();
     } 
     else {
+      dismissOpeningScreen();
       startSketch();
     }
     return true;
