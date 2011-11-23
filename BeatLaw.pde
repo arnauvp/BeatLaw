@@ -150,7 +150,7 @@ void dismissOpeningScreen() {
 
 void showClosingScreen() {
   PImage closingScreen = loadImage(CLOSING_SCREEN_PATH);
-  background(bgColor);
+  //background(bgColor);
   image(closingScreen, CANVAS_WIDTH/2 - closingScreen.width/2, CANVAS_HEIGHT/2 - closingScreen.height/2);
 }
 
