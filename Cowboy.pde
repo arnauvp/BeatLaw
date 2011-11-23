@@ -11,6 +11,12 @@ class Cowboy {
   int MAX_DODGES = 2*MAX_SHOTS;
   int DODGE_RECOVERY_TIME = 200;
 
+  String LIFE_ICON_PATH = "sprites/cor.png";
+  PImage lifeImg;
+  boolean alignLeft;
+  int INITIAL_LIVES = 5;
+  int lives;
+
   long[] shotsTime;
   Bullet[] bullets;
  
@@ -24,13 +30,19 @@ class Cowboy {
   int stance;
 
   public Cowboy(String name, String imgPath, int posX, int posY) {
+    lives = INITIAL_LIVES;
     this.name = name;
     this.posX = posX;
     this.posY = posY;
+    if (posX < CANVAS_WIDTH/2)
+      alignLeft = true;
+    else
+      alignLeft = false;    
     imgs = new PImage[MAX_DODGE_POS];
     for (int j=0; j<MAX_DODGE_POS; j++) {
       this.imgs[j] = loadImage(imgPath + "/" + j + ".png");
     }
+    lifeImg = loadImage(LIFE_ICON_PATH);
     reload();
   }
 
@@ -48,6 +60,15 @@ class Cowboy {
     }
     for (int j=0; j<dodgeCount; j++) {
       dodges[j].render();
+    }
+    if (alignLeft) {
+      for (int j=0; j <lives; j++) {
+         image(lifeImg, j*lifeImg.width, CANVAS_HEIGHT-lifeImg.height);
+      }
+    } else {
+      for (int j=0; j <lives; j++) {
+         image(lifeImg, CANVAS_WIDTH-(j+1)*lifeImg.width, CANVAS_HEIGHT-lifeImg.height);
+      }
     }
   }
 
@@ -94,7 +115,7 @@ class Cowboy {
     shotsTime[MAX_SHOTS-shotsLeft] = timestamp;
     bullets[MAX_SHOTS-shotsLeft] = new Bullet(timestamp);
     shotsLeft--;
-    println(name + " shoots! " + shotsLeft + " bullets left " + timestamp);
+    //println(name + " shoots! " + shotsLeft + " bullets left " + timestamp);
     return true;
   }
 
@@ -111,7 +132,7 @@ class Cowboy {
   }
 
   void dodge(long timestamp) {
-   println(name + " dodges! " + dodgeCount + " " + timestamp);
+   //println(name + " dodges! " + dodgeCount + " " + timestamp);
    theDJ.playDodge();
    dodges[dodgeCount] = new Dodge(timestamp);
    dodgeCount++;
@@ -124,7 +145,19 @@ class Cowboy {
     dodges = new Dodge[MAX_DODGES];
     dodgeCount = 0; 
   }
-
+  
+  synchronized int lifeDown() {
+    lives--;
+    println(name + " loses a life! Has now " + lives);
+    return lives;
+  }
+  
+  synchronized int lifeUp() {
+    lives++;
+    println("Woot! " + name + " wins an extra life! Has now " + lives);
+    return lives;
+  }
+  
   String getName() {
     return name;
   }

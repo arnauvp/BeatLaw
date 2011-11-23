@@ -175,7 +175,11 @@ void newBeat(float beatNum) {
 }
 
 void shotMissed() {
-  println("SHOT MISSED! " + currentPlayer.getName() + " loses!");
+  //println("SHOT MISSED! " + currentPlayer.getName() + " loses!");
+  if (currentPlayer.lifeDown() == 0) {
+    stopSketch();
+    println(">>>> Game over! " + otherPlayer.getName() + " wins! <<<<");
+  }
 }
 
 

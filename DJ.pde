@@ -60,7 +60,8 @@ class DJ extends Thread {
         }
       } 
       catch (Exception e) {
-         e.printStackTrace();
+        if (running)
+          e.printStackTrace();
       }
     }
     println("DJ goes home");
