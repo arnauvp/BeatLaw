@@ -1,4 +1,4 @@
 applet/*
-application.macos/*
+application.macosx/*
 application.windows/*
 application.linux/*
