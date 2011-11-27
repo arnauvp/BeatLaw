@@ -4,6 +4,7 @@ This is a 2 player rhythm-based videogame initially conceived and developed by [
 [Arnau Vàzquez](http://softwaremeetsdesign.com) during a course at IDAT Barcelona.
 You can read more about the game and the design process in [the course blog](https://tallergamemod2011.wordpress.com/).  
 
+The license of all the code and assets is CC BY SA NC. More about it [here](http://creativecommons.org/licenses/by-nc-sa/3.0/).
 ## Getting started
 
 We recommend that you run the game in your computer, as performance will be better than running as an applet.
