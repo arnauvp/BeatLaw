@@ -2,7 +2,7 @@ class MetronomeHitHatSound extends GameSound {
   
   int TYPE_HARD = 0;
   int TYPE_SOFT = 1;
-  float VOL = 0.8;
+  float VOL = 0.3;
 
   AudioSignal noiseSignal;
 

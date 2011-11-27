@@ -110,10 +110,7 @@ void reset() {
 
 /* Main graphic methods */
 void draw() {
-  if (gameOver) {
-      showClosingScreen();
-      return;
-  } else if (!started) {
+  if (!started) {
     //image(openingScreen, 0, 0);
     return;
   }
@@ -126,6 +123,11 @@ void draw() {
   otherPlayer.render(false, false);
   fill(255);
   rect(elapsed*CANVAS_WIDTH/metro.timeLength, yPos, metro.beatWidth/2, BEAT_HEIGHT);
+  if (gameOver) {
+      stopSketch();
+      showClosingScreen();
+      return;
+  } 
 }
 
 void drawFrame() {
@@ -202,9 +204,7 @@ void newBeat(float beatNum) {
 }
 
 void shotMissed() {
-  //println("SHOT MISSED! " + currentPlayer.getName() + " loses!");
   if (currentPlayer.lifeDown() == 0) {
-    stopSketch();
     gameOver = true;
     println(">>>> Game over! " + otherPlayer.getName() + " wins! <<<<");
   }
@@ -232,6 +232,11 @@ void keyPressed() {
 boolean handleSpecialKey() {
   if (!started) {
     if (key >= 'A' && key <= 'z') {
+      
+      // Don't restart immediately
+      if (gameOver && getUpdatedElapsedTime() < 4000)
+        return true;
+        
       // start with any key
       dismissOpeningScreen();
       startSketch();

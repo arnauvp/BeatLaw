@@ -1,6 +1,6 @@
 class MetronomeBassSound extends GameSound {
   
-  float VOL = 0.6;
+  float VOL = 0.3;
   float SAMPL_FREQ = 44100;
 
   SquareWave bass;
