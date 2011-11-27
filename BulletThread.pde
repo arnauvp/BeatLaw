@@ -37,7 +37,7 @@ class BulletThread extends Thread {
         break;
       } 
       else {
-        println("shot dodged sucessfully!");
+        //println("shot dodged sucessfully!");
       }
       nextShot++;
     }

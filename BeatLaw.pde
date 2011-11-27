@@ -111,8 +111,7 @@ void reset() {
 /* Main graphic methods */
 void draw() {
   if (!started) {
-    //image(openingScreen, 0, 0);
-    return;
+     return;
   }
   background(bgColor);
   drawFrame();
