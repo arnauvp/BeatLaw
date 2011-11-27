@@ -1,1 +1,4 @@
 applet/*
+application.macos/*
+application.windows/*
+application.linux/*
